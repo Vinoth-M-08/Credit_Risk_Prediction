@@ -2,7 +2,11 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 def load_data():
-    df = pd.read_csv("../data/german.csv")
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(base_dir, 'data', 'german.csv')
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"CSV not found at: {file_path}")
+    df = pd.read_csv(file_path)
     value_mappings = {
         'A11': {'A11': 'Person has a negative balance', 'A12': 'Person has a small balance (0 <= ... < 200 DM)', 'A13': 'Person has a large balance (>= 200 DM or salary assignments)', 'A14': 'person does not have a checking account.'},
         'A34': {'A30': 'no credits taken', 'A31': 'all paid back', 'A32': 'existing credits paid duly', 'A33': 'delay in past', 'A34': 'critical/other loans'},
